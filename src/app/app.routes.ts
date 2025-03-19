@@ -16,9 +16,17 @@ export const routes: Routes = [
         path: 'app',
         loadComponent: () =>
           import('./shared/layouts/inner-layout/inner-layout.component').then(
-            (c) => c.InnerLayoutComponent,
+            (c) => c.InnerLayoutComponent
           ),
-        // children: [{ path: 'dashboard', component: DashboardComponent }],
+        children: [
+          {
+            path: 'dashboard',
+            loadComponent: () =>
+              import('./pages/dashboard/dashboard.component').then(
+                (c) => c.DashboardComponent
+              ),
+          },
+        ],
       },
     ],
   },
