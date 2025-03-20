@@ -1,8 +1,12 @@
-<div id="chart">
-  <apx-chart
-    [series]="chartOptions.series"
-    [chart]="chartOptions.chart"
-    [plotOptions]="chartOptions.plotOptions"
-    [labels]="chartOptions.labels"
-  ></apx-chart>
-</div>
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <div id="chart">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [plotOptions]="chartOptions.plotOptions"
+        [labels]="chartOptions.labels"
+      ></apx-chart>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,21 +1,16 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
-import { ChartComponent, NgApexchartsModule } from "ng-apexcharts";
+import { ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 
-
-export type ChartOptions = {
-  series: ApexNonAxisChartSeries;
-  chart: ApexChart;
-  labels: string[];
-  plotOptions: ApexPlotOptions;
-};
+import { ChartOptionsDTO } from '../../../../models/chart-options.dto';
 
 @Component({
   selector: 'app-progress-widget',
   standalone: true,
-  imports: [NgApexchartsModule],
+  imports: [NgApexchartsModule, MatCardModule],
   templateUrl: './progress-widget.component.html',
-  styleUrl: './progress-widget.component.scss'
+  styleUrl: './progress-widget.component.scss',
 })
 export class ProgressWidgetComponent implements OnInit {
   @Input()
@@ -24,24 +19,24 @@ export class ProgressWidgetComponent implements OnInit {
   @Input()
   tasksTotal: number = 0;
 
-  @ViewChild("chart") chart: ChartComponent | undefined;
-  public chartOptions: Partial<ChartOptions> | any;
+  @ViewChild('chart') chart: ChartComponent | undefined;
+  public chartOptions: Partial<ChartOptionsDTO> | any;
 
-    ngOnInit(): void {
-      this.chartOptions = {
-        series: [((this.tasksCompleted / this.tasksTotal) * 100).toFixed(2)],
-          chart: {
-            height: 350,
-            type: "radialBar"
+  ngOnInit(): void {
+    this.chartOptions = {
+      series: [((this.tasksCompleted / this.tasksTotal) * 100).toFixed(2)],
+      chart: {
+        height: 350,
+        type: 'radialBar',
+      },
+      plotOptions: {
+        radialBar: {
+          hollow: {
+            size: '70%',
           },
-          plotOptions: {
-            radialBar: {
-              hollow: {
-                size: "70%"
-              }
-            }
-          },
-          labels: ["Прогресс выполнения"]
-        };
-    }
+        },
+      },
+      labels: ['Прогресс выполнения'],
+    };
+  }
 }
