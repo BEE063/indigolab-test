@@ -1,0 +1,95 @@
+<button mat-fab extended (click)="openAddProject()" style="margin-bottom: 20pt">
+  <mat-icon>add</mat-icon>
+  Добавить проект
+</button>
+
+@if(isAddProject) {
+<mat-card appearance="outlined">
+  <form [formGroup]="form">
+    <mat-card-header style="margin-bottom: 10pt">
+      <mat-card-title> Добавить новый проект </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Название проекта</mat-label>
+        <input formControlName="name" matInput />
+      </mat-form-field>
+      <br />
+
+      <mat-form-field style="margin-right: 10pt">
+        <mat-label>Завершенные задачи</mat-label>
+        <input formControlName="tasksCompleted" matInput />
+      </mat-form-field>
+
+      <mat-form-field style="margin-right: 10pt">
+        <mat-label>Всего задач</mat-label>
+        <input formControlName="tasksTotal" matInput />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Дата начала и окончания</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate formControlName="startDate" />
+          <input matEndDate formControlName="endDate" />
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-flat-button [disabled]="form.invalid" (click)="addProject()">
+        Сохранить
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
+}
+
+<div cdkDropListGroup>
+  <div
+    cdkDropList
+    [cdkDropListData]="projects"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)"
+  >
+    @for (project of projects; track project.id) {
+    <mat-card appearance="outlined" class="project-card" cdkDrag>
+      <mat-card-header class="project-card-header">
+        <mat-card-title> {{ project.name }} </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="project-card-content">
+          <app-data-widget
+            [startDate]="project.startDate"
+            [endDate]="project.endDate"
+          />
+
+          <app-statistic-widget
+            [tasksCompleted]="project.tasksCompleted"
+            [tasksTotal]="project.tasksTotal"
+          />
+
+          <app-progress-widget
+            [tasksCompleted]="project.tasksCompleted"
+            [tasksTotal]="project.tasksTotal"
+          />
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-flat-button (click)="removeProject(project.id)">
+          <mat-icon>delete</mat-icon>
+          Удалить проект
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    }
+  </div>
+</div>
